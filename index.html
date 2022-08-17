@@ -8,37 +8,58 @@
     <title>Senior dev Lautaro Capella</title>
     <style type="text/css">
         html,
-        body,
-        div.main {
-            background-color: #e7e8e9;
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .main {
             width: 100%;
             height: 100%;
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .main>* {
+            z-index: 20;
+            /* min-width: 0; */
+        }
+
+        .left {
+            margin: 0 5% 0 10%;
+            flex: 0 0 auto;
+            display: flex;
             flex-direction: column;
             justify-content: center;
-            overflow: hidden;
         }
 
-        .main * {
-            z-index: 20;
-            margin: 0 10%;
-            /* margin: 10% auto auto 10%; */
+        .right {
+            margin: 0 10% 0 5%;
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .main h1,
-        .main h2 {
+        .left h1,
+        .left h2 {
+            margin: 0;
             font-family: 'Consolas', 'Courier New', Courier, monospace;
         }
 
-        .main .avatar {
+        .left .avatar {
             opacity: 100%;
             border-radius: 50%;
             transition: all .5s;
         }
 
-        .main .avatar:hover {
+        .left .avatar:hover {
             opacity: 75%;
             scale: 102%;
         }
@@ -57,14 +78,28 @@
         .transparent {
             opacity: 0%;
         }
+
+        .marquee {
+            height: 100px;
+            margin: 0 0 1rem 0;
+            white-space: break-spaces;
+            /* min-width: 0; */
+        }
     </style>
 </head>
 
 <body>
     <div class="main">
-        <img class="avatar" src="lc_nd_100.jpg" alt="Lautaro Capella" width="100px">
-        <h1>Lautaro Capella</h1>
-        <h2>Senior developer</h2>
+        <div class="left">
+            <img class="avatar" src="lc_nd_100.jpg" alt="Lautaro Capella" width="100px">
+            <h1>Lautaro Capella</h1>
+            <h2>Senior developer</h2>
+        </div>
+        <div class="right">
+            <pre class="marquee"></pre>
+            <pre class="marquee"></pre>
+            <pre class="marquee"></pre>
+        </div>
     </div>
     <script language="javascript">
         window.addEventListener('load', function () {
@@ -83,8 +118,25 @@
                     bgImg.classList.remove("transparent");
                     moveBgImg();
                     setInterval(moveBgImg, transitionTime);
-                }, 0);
-            }, 3000);
+                }, 500);
+            }, 500);
+            setTimeout(() => {
+                const marquee = document.querySelectorAll(".marquee");
+                // TODO: import texts from external js/json
+                // TODO: separate selectorAll by class into different selectors by Id
+                //       then fill texts for each marquee calculating interval ms for
+                //       each length
+                // BETTER: create element and replicate process for each text retrived
+                //         apply different styles to each section (parse from js/json?)
+                const text = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`;
+                var i = 0;
+                const intervalHandler = setInterval(() => {
+                    marquee.forEach(m => m.textContent = text.substring(0, ++i));
+                    if (i >= text.length)
+                        clearInterval(intervalHandler);
+                    // console.log(marquee.textContent);
+                }, 1500 / text.length);
+            }, 8000);
         });
     </script>
 </body>
