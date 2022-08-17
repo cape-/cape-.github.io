@@ -10,6 +10,7 @@
         html,
         body,
         div.main {
+            background-color: #e7e8e9;
             width: 100%;
             height: 100%;
             margin: 0;
@@ -17,35 +18,75 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            overflow: hidden;
         }
 
         .main * {
+            z-index: 20;
             margin: 0 10%;
             /* margin: 10% auto auto 10%; */
         }
+
         .main h1,
         .main h2 {
             font-family: 'Consolas', 'Courier New', Courier, monospace;
         }
-        .main img {
+
+        .main .avatar {
             opacity: 100%;
             border-radius: 50%;
             transition: all .5s;
         }
-        .main img:hover {
+
+        .main .avatar:hover {
             opacity: 75%;
             scale: 102%;
         }
-       
+
+        .bg-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            width: calc(100% + 20px);
+            opacity: 15%;
+            image-rendering: pixelated;
+            transition: all 5s ease-in-out;
+        }
+
+        .transparent {
+            opacity: 0%;
+        }
     </style>
 </head>
 
 <body>
     <div class="main">
-        <img src="lc_nd_100.jpg" alt="Lautaro Capella" width="100px">
+        <img class="avatar" src="lc_nd_100.jpg" alt="Lautaro Capella" width="100px">
         <h1>Lautaro Capella</h1>
         <h2>Senior developer</h2>
     </div>
+    <script language="javascript">
+        window.addEventListener('load', function () {
+            setTimeout(() => {
+                const transitionTime = "5000";
+                const bgImg = document.createElement("img");
+                bgImg.src = "lc_nd_100.jpg";
+                bgImg.classList.add("transparent");
+                bgImg.classList.add("bg-img");
+                document.body.appendChild(bgImg);
+                const moveBgImg = () => {
+                    bgImg.style.left = `-${Math.random() * 20}px`;
+                    bgImg.style.top = `-${Math.random() * 10 + 2}%`;
+                }
+                setTimeout(() => {
+                    bgImg.classList.remove("transparent");
+                    moveBgImg();
+                    setInterval(moveBgImg, transitionTime);
+                }, 0);
+            }, 3000);
+        });
+    </script>
 </body>
 
 </html>
